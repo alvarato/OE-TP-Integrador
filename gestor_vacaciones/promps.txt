@@ -29,6 +29,11 @@ solicitud = {
 
 ## 🧱 Componentes y Estructura de Archivos
 - imprimir: Archivo/módulo auxiliar que se encarga exclusivamente de recibir listas de datos (usuarios, solicitudes, etc.) y formatearlas para mostrarlas en pantalla de manera limpia.
+- interfaz: Archivo/módulo auxiliar que se encarga de mediar entre funciones y menu
+- funciones: Archivo/módulo auxiliar que se encarga de mediar entre interfaz y persistencias
+- persistencias: Archivo/módulo auxiliar que se encarga de manejar los csv
+- control_entragas: contiene funciones para solicitar datos al usuario: 
+    [pedir_texto_no_vacio(mensaje),pedir_entero(mensaje),pedir_entero_en_rango(mensaje, minimo, maximo),pedir_entero_positivo(mensaje),pedir_entero_positivo(mensaje),pedir_texto(mensaje),pedir_opcion_booleana(mensaje)]
 
 ## ⚙️ Constantes y Estructuras del Sistema
 - MATRIZ_MESES: Representación anual en matrices por mes (de 28 a 31 días, indexados desde 0).

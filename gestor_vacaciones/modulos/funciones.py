@@ -36,4 +36,11 @@ def obtener_solicitudes_por_estado(estado:str):
 def solicitudes_crear(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx):
     persistencias_solicitud.crear_solicitud(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx)
 
+def verificar_login(username, contrasena):
+    lista_usuarios = persistencias_usuario.cargar_usuarios()
     
+    for usuario in lista_usuarios:
+        if usuario["username"] == username and usuario["contrasena"] == contrasena:
+            return usuario
+            
+    return None    

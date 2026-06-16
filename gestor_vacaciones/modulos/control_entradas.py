@@ -54,7 +54,7 @@ def pedir_entero_positivo(mensaje):
             print(f"{constantes.TEXTO_ERROR_GENERICO}{error}\n")
 
 
-def pedir_texto_no_vacio(mensaje):
+def pedir_entero_positivo(mensaje):
     while True:
         try:
             entrada = input(f"{mensaje}: ").strip()
@@ -79,6 +79,19 @@ def pedir_texto(mensaje):
         except ValueError as error:
             print(f"{constantes.TEXTO_ERROR_GENERICO}{error}\n")
 
+def pedir_texto_no_vacio(mensaje):
+    while True:
+        try:
+            entrada = input(f"{mensaje}: ").strip()
+            
+            if entrada == "":
+                print("❌ Error: El campo no puede estar vacío.\n")
+                continue # Vuelve a pedir el texto
+                
+            return entrada
+
+        except Exception as error:
+            print(f"❌ Error: {error}\n")
 
 def pedir_opcion_booleana(mensaje):
     while True:
@@ -101,3 +114,4 @@ def pedir_opcion_booleana(mensaje):
 
         except ValueError as error:
             print(f"{constantes.TEXTO_ERROR_GENERICO}{error}\n")
+

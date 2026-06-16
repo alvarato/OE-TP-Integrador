@@ -21,13 +21,6 @@ def solicitudes_obtener_por_estado(estado:str):
 
 
 def solicitudes_crear(id_usuario_logueado):
-    """
-    Pide al usuario por consola el mes, día de inicio y día de fin usando
-    las funciones de control de entradas, y ejecuta la función CRUD.
-    
-    :param id_usuario_logueado: int -> ID del usuario de la sesión activa.
-    :param crear_solicitud_crud: function -> La función CRUD 'crear_solicitud' para guardarlo.
-    """
     print("\n--- 📝 NUEVA SOLICITUD DE VACACIONES ---")
     
     # 1. Mostrar los meses disponibles para que el usuario elija
@@ -59,4 +52,19 @@ def solicitudes_crear(id_usuario_logueado):
     dia_fin_idx = dia_fin - 1
     
     funciones.solicitudes_crear(id_usuario_logueado, mes_idx, dia_inicio_idx, dia_fin_idx)
+
+def iniciar_sesion():
+
+    print("\n--- INICIO DE SESIÓN ---")
+    username = control_entradas.pedir_texto_no_vacio("Introduce tu nombre de usuario")
+    contrasena = control_entradas.pedir_texto_no_vacio("Introduce tu contraseña")
     
+    # Llamamos a la lógica de negocio
+    usuario = funciones.verificar_login(username, contrasena)
+    
+    if usuario:
+        print(f"\n✅ Éxito: ¡Bienvenido/a, {usuario['nombre']} ({usuario['perfil']})!")
+        return usuario
+    else:
+        print("\n❌ Error: Usuario o contraseña incorrectos.")
+        return None    
