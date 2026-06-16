@@ -1,24 +1,27 @@
-from constantes import TEXTO_ERROR_GENERICO, TEXTO_EXITO_GENERICO, ESTADOS_SOLICITUD
-
+from .constantes import TEXTO_ERROR_GENERICO, TEXTO_EXITO_GENERICO, ESTADOS_SOLICITUD
 import os
+
+RUTA_CSV = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "solicitudes.csv"))
 
 # --- 1. READ (Leer / Cargar) ---
 def cargar_solicitudes():
     """
-    Lee 'solicitudes.csv' y devuelve una lista de diccionarios.
+    Lee 'solicitudes.csv' usando RUTA_CSV y devuelve una lista de diccionarios.
     """
     lista_solicitudes = []
-    if not os.path.exists("solicitudes.csv"):
-        # Si el archivo no existe, lo creamos con sus encabezados
+    if not os.path.exists(RUTA_CSV):
+        # Si el archivo no existe en la ruta de destino, lo creamos con sus encabezados
         try:
-            with open("solicitudes.csv", "w", encoding="utf-8") as archivo:
+            # Asegurar que la carpeta 'data' exista antes de crear el archivo
+            os.makedirs(os.path.dirname(RUTA_CSV), exist_ok=True)
+            with open(RUTA_CSV, "w", encoding="utf-8") as archivo:
                 archivo.write("id_solicitud,id_usuario,mes_idx,dia_inicio_idx,dia_fin_idx,estado\n")
         except Exception as e:
             print(f"{TEXTO_ERROR_GENERICO}No se pudo crear el archivo base: {e}")
         return lista_solicitudes
 
     try:
-        with open("solicitudes.csv", "r", encoding="utf-8") as archivo:
+        with open(RUTA_CSV, "r", encoding="utf-8") as archivo:
             archivo.readline()  # Saltar encabezados
             for linea in archivo:
                 datos = linea.strip().split(",")
@@ -31,7 +34,7 @@ def cargar_solicitudes():
                     "mes_idx": int(datos[2]),
                     "dia_inicio_idx": int(datos[3]),
                     "dia_fin_idx": int(datos[4]),
-                    "estado": datos[5]
+                    "estado": datos[5].strip()
                 }
                 lista_solicitudes.append(solicitud)
         return lista_solicitudes
@@ -43,7 +46,7 @@ def cargar_solicitudes():
 # --- 2. CREATE (Crear / Insertar) ---
 def crear_solicitud(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx):
     """
-    Genera una nueva solicitud en estado PENDIENTE y la escribe en el CSV.
+    Genera una nueva solicitud en estado PENDIENTE y la escribe usando RUTA_CSV.
     Calcula el ID de forma autoincremental.
     """
     solicitudes_actuales = cargar_solicitudes()
@@ -57,7 +60,7 @@ def crear_solicitud(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx):
     nuevo_estado = ESTADOS_SOLICITUD["PENDIENTE"]
 
     try:
-        with open("solicitudes.csv", "a", encoding="utf-8") as archivo:
+        with open(RUTA_CSV, "a", encoding="utf-8") as archivo:
             linea = f"{nuevo_id},{id_usuario},{mes_idx},{dia_inicio_idx},{dia_fin_idx},{nuevo_estado}\n"
             archivo.write(linea)
         print(f"{TEXTO_EXITO_GENERICO}Solicitud #{nuevo_id} creada correctamente.")
@@ -70,16 +73,15 @@ def crear_solicitud(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx):
 # --- 3. UPDATE (Actualizar Estado) ---
 def actualizar_estado_solicitud(id_solicitud, nuevo_estado):
     """
-    Busca una solicitud por su ID y cambia su estado (ej. APROBADA o RECHAZADA).
-    Reescribe el archivo CSV con el cambio.
+    Busca una solicitud por su ID y cambia su estado.
+    Reescribe el archivo especificado por RUTA_CSV con el cambio.
     """
     solicitudes = cargar_solicitudes()
     encontrado = False
 
     for s in solicitudes:
         if s["id_solicitud"] == id_solicitud:
-            s["estado"] = nuevo_estado
-            encontrado = False  # Usado para control
+            s["estado"] = nuevo_estado.strip()
             encontrado = True
             break
 
@@ -87,9 +89,9 @@ def actualizar_estado_solicitud(id_solicitud, nuevo_estado):
         print(f"{TEXTO_ERROR_GENERICO}No se encontró la solicitud #{id_solicitud}.")
         return False
 
-    # Reescribir el archivo con el dato modificado
+    # Reescribir el archivo con el dato modificado utilizando RUTA_CSV
     try:
-        with open("solicitudes.csv", "w", encoding="utf-8") as archivo:
+        with open(RUTA_CSV, "w", encoding="utf-8") as archivo:
             archivo.write("id_solicitud,id_usuario,mes_idx,dia_inicio_idx,dia_fin_idx,estado\n")
             for s in solicitudes:
                 linea = f"{s['id_solicitud']},{s['id_usuario']},{s['mes_idx']},{s['dia_inicio_idx']},{s['dia_fin_idx']},{s['estado']}\n"
@@ -104,8 +106,7 @@ def actualizar_estado_solicitud(id_solicitud, nuevo_estado):
 # --- 4. DELETE (Eliminar) ---
 def eliminar_solicitud(id_solicitud):
     """
-    Elimina una solicitud del archivo CSV mediante su ID.
-    (Útil si un empleado cancela una solicitud antes de ser aprobada).
+    Elimina una solicitud del archivo RUTA_CSV mediante su ID.
     """
     solicitudes = cargar_solicitudes()
     longitud_inicial = len(solicitudes)
@@ -117,8 +118,9 @@ def eliminar_solicitud(id_solicitud):
         print(f"{TEXTO_ERROR_GENERICO}No se encontró la solicitud #{id_solicitud} para eliminar.")
         return False
 
+    # Volver a escribir en RUTA_CSV sin la solicitud eliminada
     try:
-        with open("solicitudes.csv", "w", encoding="utf-8") as archivo:
+        with open(RUTA_CSV, "w", encoding="utf-8") as archivo:
             archivo.write("id_solicitud,id_usuario,mes_idx,dia_inicio_idx,dia_fin_idx,estado\n")
             for s in solicitudes_filtradas:
                 linea = f"{s['id_solicitud']},{s['id_usuario']},{s['mes_idx']},{s['dia_inicio_idx']},{s['dia_fin_idx']},{s['estado']}\n"
@@ -128,4 +130,3 @@ def eliminar_solicitud(id_solicitud):
     except Exception as e:
         print(f"{TEXTO_ERROR_GENERICO}No se pudo actualizar el archivo al eliminar: {e}")
         return False
-

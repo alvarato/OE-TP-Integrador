@@ -1,0 +1,39 @@
+Actúa como un desarrollador experto y mi asistente de programación. A partir de ahora, ten en cuenta las bases del proyecto "Gestor de Vacaciones" que te detallo a continuación para el código que desarrollemos:
+
+## 🌐 Lenguaje
+- Python
+
+## 🗂️ Modelo de Datos (DB basada en CSV)
+- solicitudes.csv: id_solicitud, id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx, estado
+- usuarios.csv: id_usuario, username, contrasena, nombre, perfil, dias_totales, dias_gastados
+
+### Estructura de Objetos (Diccionarios)
+usuario = {
+            "id_usuario": int(datos[0]),
+            "username": datos[1],
+            "contrasena": datos[2],
+            "nombre": datos[3],
+            "perfil": datos[4],
+            "dias_totales": int(datos[5]),
+            "dias_gastados": int(datos[6])
+        }
+
+solicitud = {
+            "id_solicitud": int(datos[0]),
+            "id_usuario": int(datos[1]),
+            "mes_idx": int(datos[2]),
+            "dia_inicio_idx": int(datos[3]),
+            "dia_fin_idx": int(datos[4]),
+            "estado": datos[5]
+        }
+
+## 🧱 Componentes y Estructura de Archivos
+- imprimir: Archivo/módulo auxiliar que se encarga exclusivamente de recibir listas de datos (usuarios, solicitudes, etc.) y formatearlas para mostrarlas en pantalla de manera limpia.
+
+## ⚙️ Constantes y Estructuras del Sistema
+- MATRIZ_MESES: Representación anual en matrices por mes (de 28 a 31 días, indexados desde 0).
+- ESTADOS_SOLICITUD: "Pendiente", "Aprobada", "Rechazada".
+- NOMBRES_MESES: Mapeo amigable para el usuario de "Enero" a "Diciembre".
+- Mensajes de feedback con prefijos específicos ("❌ Error: ", "✅ Éxito: ").
+
+Mantén este contexto en memoria. No generes código nuevo ni implementaciones hasta que te lo pida explícitamente. Confirma que has entendido las bases del proyecto.

@@ -23,3 +23,9 @@ ESTADOS_SOLICITUD = {
 
 TEXTO_ERROR_GENERICO = "❌ Error: "
 TEXTO_EXITO_GENERICO = "✅ Éxito: "
+
+    # Mapeo de índices a nombres de meses para que sea amigable al usuario
+NOMBRES_MESES = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ]
