@@ -5,20 +5,26 @@ from . import imprimir
 
 
 
-def solicitudes_visualizar_por_user_id(id:int):
+def solicitudes_visualizar_por_user_id(id:int,nombre:str):
     solicitudes = funciones.obtener_solicitudes_por_usuario(1)
-    imprimir.solicitudes(solicitudes)
+    imprimir.solicitudes(solicitudes,nombre)
 
 def solicitudes_visualizar():
     solicitudes = funciones.obtener_solicitudes()
     mapa_usuarios = funciones.obtener_mapa_usuarios()
     imprimir.solicitudes(solicitudes,mapa_usuarios)
 
-def solicitudes_obtener_por_estado(estado:str):
-    solicitudes = funciones.obtener_solicitudes_por_estado(estado)
-    mapa_usuarios = funciones.obtener_mapa_usuarios()
-    imprimir.solicitudes(solicitudes,mapa_usuarios)
+def solicitudes_obtener_por_estado(estado:str,id:int,nombre:str):
 
+    solicitudes = funciones.obtener_solicitudes_por_estado(estado,id)
+    mapa_usuarios = ""
+
+    if str == None:
+        mapa_usuarios = funciones.obtener_mapa_usuarios()
+    else:
+        mapa_usuarios = nombre
+
+    imprimir.solicitudes(solicitudes,mapa_usuarios)
 
 def solicitudes_crear(id_usuario_logueado):
     print("\n--- 📝 NUEVA SOLICITUD DE VACACIONES ---")
@@ -68,3 +74,9 @@ def iniciar_sesion():
     else:
         print("\n❌ Error: Usuario o contraseña incorrectos.")
         return None    
+    
+def solicitudes_cancelar_solicitud(id_usuario:int):
+    # 1. Solicitar el ID usando las funciones de validación de control_entragas
+    id_solicitud = control_entradas.pedir_entero_positivo("Introduce el ID de la solicitud que deseas cancelar")
+    
+    funciones.cancelar_solicitud_por_id(id_solicitud,id_usuario)

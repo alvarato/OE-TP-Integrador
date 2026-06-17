@@ -25,7 +25,12 @@ def solicitudes(lista_solicitudes,mapa_usuarios):
         try:
             # Obtenemos el nombre del mes usando el índice
             nombre_mes = NOMBRES_MESES[sol["mes_idx"]]
-            nombre_empleado = mapa_usuarios[sol["id_usuario"]]
+            nombre_empleado = ""
+            
+            if isinstance(mapa_usuarios, str):
+                nombre_empleado = mapa_usuarios
+            else:
+                nombre_empleado = mapa_usuarios[sol["id_usuario"]]
             # Sumamos 1 a los índices de los días para mostrárselos al usuario de forma natural (1 al 31)
             dia_inicio = sol["dia_inicio_idx"] + 1
             dia_fin = sol["dia_fin_idx"] + 1

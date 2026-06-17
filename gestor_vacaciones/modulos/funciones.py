@@ -1,6 +1,6 @@
 from . import persistencias_solicitud
 from . import persistencias_usuario
-from .constantes import NOMBRES_MESES, ESTADOS_SOLICITUD
+from .constantes import NOMBRES_MESES, ESTADOS_SOLICITUD,TEXTO_ERROR_GENERICO
 
 def formatear_nombre_compuesto(texto):
     return texto.strip().title()
@@ -25,10 +25,14 @@ def obtener_solicitudes_por_usuario(id_usuario: int):
 def obtener_solicitudes():
     return persistencias_solicitud.cargar_solicitudes()
 
-def obtener_solicitudes_por_estado(estado:str):
-    lista_solicitudes = persistencias_solicitud.cargar_solicitudes()
-
-    # List comprehension para filtrar de forma eficiente y limpia
+#si recibe id busca por persona, si no trae todas
+def obtener_solicitudes_por_estado(estado:str,id:int):
+    lista_solicitudes = []
+    if id == None:
+        lista_solicitudes = persistencias_solicitud.cargar_solicitudes()
+    else:
+        lista_solicitudes = obtener_solicitudes_por_usuario(id)
+    
     pendientes = [s for s in lista_solicitudes if s["estado"] == estado]
     
     return pendientes
@@ -43,4 +47,23 @@ def verificar_login(username, contrasena):
         if usuario["username"] == username and usuario["contrasena"] == contrasena:
             return usuario
             
-    return None    
+    return None   
+
+def cancelar_solicitud_por_id(id_solicitud: int, id_user: int) -> str:
+    try:
+        # 1. Cargar la lista actual de diccionarios de solicitudes
+        solicitudes = persistencias_solicitud.cargar_solicitudes()
+        
+        # 2. Buscar la solicitud con el ID indicado
+        for solicitud in solicitudes:
+            if int(solicitud["id_solicitud"]) == int(id_solicitud):
+                if id_user != solicitud["id_usuario"]:
+                    raise ValueError("Esta solicitud no pertenece al usuario actual.")
+                elif solicitud["estado"] != ESTADOS_SOLICITUD["PENDIENTE"]:
+                    raise ValueError("Solo se pueden cancelar solicitudes pendientes.")
+                break  # ID único, podemos salir del bucle
+                
+        persistencias_solicitud.actualizar_estado_solicitud(id_solicitud, ESTADOS_SOLICITUD["CANCELADA"])
+    except ValueError as e:
+        print(f"{TEXTO_ERROR_GENERICO} {str(e)}")
+    

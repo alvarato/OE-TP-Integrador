@@ -18,7 +18,8 @@ MATRIZ_MESES = [
 ESTADOS_SOLICITUD = {
     "PENDIENTE": "Pendiente",
     "APROBADA": "Aprobada",
-    "RECHAZADA": "Rechazada"
+    "RECHAZADA": "Rechazada",
+    "CANCELADA": "Cancelado"
 }
 
 TEXTO_ERROR_GENERICO = "❌ Error: "
