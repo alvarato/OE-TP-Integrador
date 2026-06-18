@@ -134,7 +134,7 @@ def actualizar_usuario(id_usuario, datos_nuevos):
             for u in usuarios:
                 linea = f"{u['id_usuario']},{u['username']},{u['contrasena']},{u['nombre']},{u['perfil']},{u['dias_totales']},{u['dias_gastados']}\n"
                 archivo.write(linea)
-        print(f"{TEXTO_EXITO_GENERICO}Datos del usuario #{id_usuario} actualizados.")
+        print(f"{TEXTO_EXITO_GENERICO}Datos del usuario #{id_usuario} {datos_nuevos["nombre"]} actualizados.")
         return True
     except Exception as e:
         print(f"{TEXTO_ERROR_GENERICO}No se pudo actualizar el archivo de usuarios: {e}")

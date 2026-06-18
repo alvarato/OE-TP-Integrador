@@ -1,6 +1,6 @@
 id_usuario,username,contrasena,nombre,perfil,dias_totales,dias_gastados
 1,admin,admin,Ana Gomez,admin,30,0
-2,123,123,Carlos Ruiz,empleado,30,0
+2,123,123,Carlos Ruiz,empleado,30,18
 3,mariant,maria99,Maria Antonieta,empleado,26,0
 4,ana,111,Ana Perez,empleado,30,0
 5,juan,222,Juan Lopez,empleado,28,0

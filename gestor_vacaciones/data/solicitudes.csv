@@ -1,2 +1,3 @@
 id_solicitud,id_usuario,mes_idx,dia_inicio_idx,dia_fin_idx,estado
-
+1,2,1,0,14,Aprobada
+2,2,1,0,4,Pendiente

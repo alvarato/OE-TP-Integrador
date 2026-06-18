@@ -8,9 +8,9 @@ Trabajo: Proyecto Integrador Final
 
 Integrantes:
 
-Estudiante 1: [Nombre y Apellido] - Legajo: [Número]
+Estudiante 1: [Alvaro Bernabey Izquierdo] - Legajo: [3666]
 
-Estudiante 2: [Nombre y Apellido] - Legajo: [Número]
+Estudiante 2: [Guido Ignacio Toledo Gonzalez] - Legajo: [103035]
 
 📝 Descripción del Proyecto
 El Gestor de Vacaciones es una aplicación de consola desarrollada en Python que simula el flujo organizacional para la solicitud, revisión y control de las vacaciones del personal dentro de una empresa. El sistema permite automatizar un proceso administrativo clave, garantizando la consistencia de los datos, el control de los días disponibles por empleado y la jerarquía de estados en las solicitudes.
@@ -20,7 +20,7 @@ El diseño del software se alinea con los conceptos de procesos de negocio, cont
 🏗️ Arquitectura y Estructura de Archivos
 El proyecto sigue un diseño modular para separar las responsabilidades de persistencia, lógica de negocio, validación y presentación:
 
-persistencias.py: Módulo encargado del manejo y lectura/escritura de la base de datos basada en archivos CSV.
+persistencias_solicitud.py y persistencias_usuario.py: Módulos encargados del manejo y lectura/escritura de la base de datos basada en archivos CSV.
 
 funciones.py: Contiene la lógica de negocio central (mediador entre la interfaz y la persistencia).
 
@@ -28,7 +28,7 @@ interfaz.py: Gestiona los menús de navegación y el flujo de pantallas del sist
 
 imprimir.py: Módulo especializado de visualización. Recibe listas de datos y las formatea de manera limpia en la consola.
 
-control_entragas.py: Componente de soporte encargado de la captura segura de datos mediante funciones de validación de entradas:
+control_entradas.py: Componente de soporte encargado de la captura segura de datos mediante funciones de validación de entradas:
 
 pedir_texto_no_vacio(mensaje)
 

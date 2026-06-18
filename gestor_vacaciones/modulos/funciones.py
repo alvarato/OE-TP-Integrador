@@ -156,13 +156,12 @@ def usuario_actualizar_dias_gastados_por_user_id(usuario_id,dias_solicitados,ope
     if(operacion == 1):
         usuario = obtener_usuario_por_id(usuario_id)
         usuario["dias_gastados"] = usuario["dias_gastados"] + dias_solicitados
-           
+            
     elif operacion == 2:
         usuario = obtener_usuario_por_id(usuario_id)
         usuario["dias_gastados"] = usuario["dias_gastados"] - dias_solicitados
 
     if usuario!= None:
-        print(usuario)
         persistencias_usuario.actualizar_usuario(usuario_id,usuario)
 
 def usuario_dias_disponibles(usuario_id):
