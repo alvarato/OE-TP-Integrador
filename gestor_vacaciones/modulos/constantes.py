@@ -22,6 +22,11 @@ ESTADOS_SOLICITUD = {
     "CANCELADA": "Cancelado"
 }
 
+PERFILES = {
+    "ADMIN": "admin",
+    "EMPLEADO": "empleado",
+}
+
 TEXTO_ERROR_GENERICO = "❌ Error: "
 TEXTO_EXITO_GENERICO = "✅ Éxito: "
 

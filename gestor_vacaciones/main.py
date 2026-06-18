@@ -28,8 +28,6 @@ from modulos import funciones
 def log_in():
     return interfaz.iniciar_sesion()
 
-#usuario_actual = log_in()
-usuario_actual = funciones.verificar_login("admin", "admin")
 
 def menu_empleado(usuario_actual):
     """
@@ -39,25 +37,24 @@ def menu_empleado(usuario_actual):
     ejecutando = True
     
     while ejecutando:
-        # 1. Cálculo de variables de negocio
-        dias_disponibles = usuario_actual["dias_totales"] - usuario_actual["dias_gastados"]
         
         # 2. Renderizado de la interfaz
         print("\n=== MENÚ DE EMPLEADO ===")
         print("1. Solicitar vacaciones")
         print("2. Consultar días disponibles")
-        print("3. Solicitar cancelación de solicitud")
+        print("3. Cancelar de solicitud")
         print("4. Mis Solicitudes")
         print("5. Salir")
         print("-----------------------")
         
         # Validación de entrada usando tu módulo especializado
-        opcion = control_entradas.pedir_entero_en_rango("Seleccione una opción: ", 1, 4)
+        opcion = control_entradas.pedir_entero_en_rango("Seleccione una opción: ", 1, 5)
         
         match opcion:
             case 1:
                 print("\n--- SOLICITAR VACACIONES ---")
-                
+                # 1. Cálculo de variables de negocio
+                dias_disponibles = interfaz.usuario_dias_disponibles(usuario_actual["id_usuario"])
                 if dias_disponibles <= 0:
                     print("❌ Error: No le quedan días de vacaciones disponibles.")
                 else:
@@ -65,11 +62,11 @@ def menu_empleado(usuario_actual):
 
             case 2:
                 print("\n--- CONSULTA DE SALDO ---")
+                dias_disponibles = interfaz.usuario_dias_disponibles(usuario_actual["id_usuario"])
                 print(f"Usted tiene {dias_disponibles} días disponibles para usufructuar.")
-                print(f"(Totales asignados: {usuario_actual['dias_totales']} | Consumidos: {usuario_actual['dias_gastados']})")
 
             case 3:
-                print("\n--- CANCELACIÓN DE SOLICITUDES ---")
+                print("\n--- CANCELAR DE SOLICITUD ---")
                 interfaz.solicitudes_obtener_por_estado(constantes.ESTADOS_SOLICITUD["PENDIENTE"],usuario_actual["id_usuario"],usuario_actual["nombre"])
                 interfaz.solicitudes_cancelar_solicitud(usuario_actual["id_usuario"])
                 
@@ -79,4 +76,55 @@ def menu_empleado(usuario_actual):
                 print("Cerrando sesión administrativa. ¡Hasta luego!")
                 ejecutando = False
 
-menu_empleado(usuario_actual)
+
+def menu_admin(usuario_actual):
+    ejecutando = True
+    
+    while ejecutando:
+        
+        print("\n=== MENÚ DE ADMIN ===")
+        print("1. Aceptar/Rechazar solicitudes")
+        print("2. Ver Solicitudes")
+        print("3. Salir")
+        print("-----------------------")
+        
+        # Validación de entrada usando tu módulo especializado
+        opcion = control_entradas.pedir_entero_en_rango("Seleccione una opción", 1, 3)
+        
+        match opcion:
+            case 1:
+                print("\n--- Aceptar/Rechazar solicitudes ---")
+                print("1. Aceptar solicitud")
+                print("2. Rechazar solicitud")
+                accion = control_entradas.pedir_entero_en_rango("Seleccione una opción",1,2)
+                interfaz.solicitudes_obtener_por_estado(constantes.ESTADOS_SOLICITUD["PENDIENTE"],None,None)
+                if accion == 1:
+                    interfaz.solicitudes_aprobar_solicitud()
+                elif accion == 2:
+                    interfaz.solicitudes_rechazar_solicitud()
+            case 2:
+               interfaz.solicitudes_visualizar()
+            case 3:
+                print("Cerrando sesión administrativa. ¡Hasta luego!")
+                ejecutando = False
+
+
+
+def ejecutor_sistema():
+    usuario_actual = None
+    print("\n--- INICIO DE SESIÓN ---")
+    for i in range(3):
+        print(f"Intento de inicio de sesión {i + 1}/3")
+        usuario_actual = log_in()
+        if usuario_actual != None:
+            break
+
+    if usuario_actual != None:   
+        if usuario_actual["perfil"] == constantes.PERFILES["ADMIN"]:
+            menu_admin(usuario_actual)
+        else:
+            menu_empleado(usuario_actual)
+    else:
+        print(f"{constantes.TEXTO_ERROR_GENERICO}no se puedo iniciar sesión")
+
+ejecutor_sistema()         

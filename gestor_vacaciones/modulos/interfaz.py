@@ -6,7 +6,7 @@ from . import imprimir
 
 
 def solicitudes_visualizar_por_user_id(id:int,nombre:str):
-    solicitudes = funciones.obtener_solicitudes_por_usuario(1)
+    solicitudes = funciones.obtener_solicitudes_por_usuario(id)
     imprimir.solicitudes(solicitudes,nombre)
 
 def solicitudes_visualizar():
@@ -19,7 +19,7 @@ def solicitudes_obtener_por_estado(estado:str,id:int,nombre:str):
     solicitudes = funciones.obtener_solicitudes_por_estado(estado,id)
     mapa_usuarios = ""
 
-    if str == None:
+    if nombre == None:
         mapa_usuarios = funciones.obtener_mapa_usuarios()
     else:
         mapa_usuarios = nombre
@@ -60,8 +60,6 @@ def solicitudes_crear(id_usuario_logueado):
     funciones.solicitudes_crear(id_usuario_logueado, mes_idx, dia_inicio_idx, dia_fin_idx)
 
 def iniciar_sesion():
-
-    print("\n--- INICIO DE SESIÓN ---")
     username = control_entradas.pedir_texto_no_vacio("Introduce tu nombre de usuario")
     contrasena = control_entradas.pedir_texto_no_vacio("Introduce tu contraseña")
     
@@ -76,7 +74,17 @@ def iniciar_sesion():
         return None    
     
 def solicitudes_cancelar_solicitud(id_usuario:int):
-    # 1. Solicitar el ID usando las funciones de validación de control_entragas
     id_solicitud = control_entradas.pedir_entero_positivo("Introduce el ID de la solicitud que deseas cancelar")
     
     funciones.cancelar_solicitud_por_id(id_solicitud,id_usuario)
+
+def solicitudes_rechazar_solicitud():
+    id_solicitud = control_entradas.pedir_entero_positivo("Ingrese el id")
+    funciones.rechazar_solicitud_por_id(id_solicitud)
+
+def solicitudes_aprobar_solicitud():
+    id_solicitud = control_entradas.pedir_entero_positivo("Ingrese el id")
+    funciones.aprobar_solicitud_por_id(id_solicitud)
+
+def usuario_dias_disponibles(usuario_id):
+    return funciones.usuario_dias_disponibles(usuario_id)

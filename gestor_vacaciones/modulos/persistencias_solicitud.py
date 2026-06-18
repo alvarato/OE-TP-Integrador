@@ -64,10 +64,10 @@ def crear_solicitud(id_usuario, mes_idx, dia_inicio_idx, dia_fin_idx):
             linea = f"{nuevo_id},{id_usuario},{mes_idx},{dia_inicio_idx},{dia_fin_idx},{nuevo_estado}\n"
             archivo.write(linea)
         print(f"{TEXTO_EXITO_GENERICO}Solicitud #{nuevo_id} creada correctamente.")
-        return True
+        return nuevo_id
     except Exception as e:
         print(f"{TEXTO_ERROR_GENERICO}No se pudo guardar la solicitud: {e}")
-        return False
+        return None
 
 
 # --- 3. UPDATE (Actualizar Estado) ---
@@ -80,7 +80,7 @@ def actualizar_estado_solicitud(id_solicitud, nuevo_estado):
     encontrado = False
 
     for s in solicitudes:
-        if s["id_solicitud"] == id_solicitud:
+        if int(s["id_solicitud"]) == int(id_solicitud):
             s["estado"] = nuevo_estado.strip()
             encontrado = True
             break
